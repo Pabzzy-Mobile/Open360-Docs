@@ -21,8 +21,8 @@ The function of the Internal API Service is to relay and log messages between mi
 
 To send a message from one service to another, it must emit a `"api-message"` event on its socket. The data sent must be a JSON object with the following structure (also described in the image above):
 
-````json
-{
+````javascript
+let message = {
     target: string,
     ack: string,
     type: APIMessageType,
@@ -42,7 +42,7 @@ The `package` in the message has 2 different possible structures:
 
 ```javascript
 // Normal Package
-package = {
+let package = {
     // Used by the target service to know how to handle the data and possible answer it
     prompt: "string", 
     // Used by the target service to process and handle
@@ -51,7 +51,7 @@ package = {
     message: "string"
 }
 // Status Package
-package = {
+let package = {
     // Asks for the status of a service, replying with either "alive" or "dead" in its data on the "status-reply" prompt
     prompt: "status"
 }
@@ -198,8 +198,8 @@ The following list shows some of the current supported External API requests ava
 
 Making a empty request to the root url of the server will respond with the status of all the services.
 
-```json
-{
+```javascript
+let package = {
     status: {
         api: "string",
         ingest: "string",
@@ -215,9 +215,11 @@ These strings could either be "alive", "dead" or "zombie". "alive" and "dead" de
 
 This request must include `username` in the query. It will answer with:
 
-```json
-streamStatus: "string",
-code: number
+```javascript
+let response = {
+    streamStatus: "string",
+    code: number
+}
 ```
 
 This will be according to the following table:
@@ -233,8 +235,8 @@ This will be according to the following table:
 
 The request must include `username` in the query. It will answer with:
 
-```json
-{
+```javascript
+let response = {
     memberCount: number,
     members: ["string"],
     streamTitle: "string",
